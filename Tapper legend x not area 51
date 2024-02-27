@@ -1,0 +1,219 @@
+local ArrayField = loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/Refinement/main/MC%3AArrayfield%20Library"))()
+
+local autoTapEnabled = false
+local autoRebirthEnabled = false
+local autoEquipPetsEnabled = false
+local savedWalkspeed = 16 -- Default walkspeed value
+
+local Window = ArrayField:CreateWindow({
+    Name = "[🔥] Tapper Legends X Key System",
+    LoadingTitle = "[🔥] Tapper Legends X Key System",
+    LoadingSubtitle = "by Arrays",
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = nil,
+        FileName = "ArrayField"
+    },
+    Discord = {
+        Enabled = false,
+        Invite = "noinvitelink",
+        RememberJoins = true
+    },
+    KeySystem = true,
+    KeySettings = {
+        Title = "[🔥] Tapper Legends X Key System",
+        Subtitle = "Key System",
+        Note = "DM SATTK for the key",
+        FileName = "Key",
+        SaveKey = true,
+        GrabKeyFromSite = false,
+        Actions = {
+            [1] = {
+                Text = 'Click here to copy the key link <--',
+                OnPress = function()
+                    print('Pressed')
+                end,
+            }
+        },
+        Key = {"X7rP2Kl9qZsD5fG3mY8bN1wH6tA4oE"}
+    }
+})
+
+local AutoTapTab = Window:CreateTab("Auto Tap", 4483362458)
+local AutoRebirthTab = Window:CreateTab("Auto Rebirth", 4483362458)
+local MiscTab = Window:CreateTab("Misc", 4483362458)
+
+-- Auto Tap Toggle
+local AutoTapToggle = AutoTapTab:CreateToggle({
+    Name = "Auto Tap Toggle",
+    Callback = function(enabled)
+        autoTapEnabled = enabled
+        if enabled then
+            ArrayField:Notify({
+                Title = "Auto Tap Enabled",
+                Content = "Auto Tap is now ON",
+                Duration = 5,
+                Image = 4483362458,
+                Actions = {
+                    Ignore = {
+                        Name = "Okay!",
+                        Callback = function()
+                            print("The user tapped Okay!")
+                        end
+                    },
+                },
+            })
+        else
+            ArrayField:Notify({
+                Title = "Auto Tap Disabled",
+                Content = "Auto Tap is now OFF",
+                Duration = 5,
+                Image = 4483362458,
+                Actions = {
+                    Ignore = {
+                        Name = "Okay!",
+                        Callback = function()
+                            print("The user tapped Okay!")
+                        end
+                    },
+                },
+            })
+        end
+    end
+})
+
+-- Auto Rebirth Toggle
+local AutoRebirthToggle = AutoRebirthTab:CreateToggle({
+    Name = "Auto Rebirth Toggle",
+    Callback = function(enabled)
+        autoRebirthEnabled = enabled
+        if enabled then
+            ArrayField:Notify({
+                Title = "Auto Rebirth Enabled",
+                Content = "Auto Rebirth is now ON",
+                Duration = 5,
+                Image = 4483362458,
+                Actions = {
+                    Ignore = {
+                        Name = "Okay!",
+                        Callback = function()
+                            print("The user tapped Okay!")
+                        end
+                    },
+                },
+            })
+        else
+            ArrayField:Notify({
+                Title = "Auto Rebirth Disabled",
+                Content = "Auto Rebirth is now OFF",
+                Duration = 5,
+                Image = 4483362458,
+                Actions = {
+                    Ignore = {
+                        Name = "Okay!",
+                        Callback = function()
+                            print("The user tapped Okay!")
+                        end
+                    },
+                },
+            })
+        end
+    end
+})
+
+-- Auto Equip Pets Toggle
+local AutoEquipPetsToggle = MiscTab:CreateToggle({
+    Name = "Auto Equip Pets Toggle",
+    Callback = function(enabled)
+        autoEquipPetsEnabled = enabled
+        if enabled then
+            ArrayField:Notify({
+                Title = "Auto Equip Pets Enabled",
+                Content = "Auto Equip Pets is now ON",
+                Duration = 5,
+                Image = 4483362458,
+                Actions = {
+                    Ignore = {
+                        Name = "Okay!",
+                        Callback = function()
+                            print("The user tapped Okay!")
+                        end
+                    },
+                },
+            })
+        else
+            ArrayField:Notify({
+                Title = "Auto Equip Pets Disabled",
+                Content = "Auto Equip Pets is now OFF",
+                Duration = 5,
+                Image = 4483362458,
+                Actions = {
+                    Ignore = {
+                        Name = "Okay!",
+                        Callback = function()
+                            print("The user tapped Okay!")
+                        end
+                    },
+                },
+            })
+        end
+    end
+})
+
+-- Walkspeed Slider
+local WalkspeedSlider = MiscTab:CreateSlider({
+    Name = "Walkspeed",
+    Range = {16, 100},
+    Increment = 1,
+    Suffix = "",
+    CurrentValue = savedWalkspeed,
+    Flag = "WalkspeedSlider", -- Unique flag for configuration saving
+    Callback = function(value)
+        savedWalkspeed = value
+        game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = value
+    end,
+})
+
+-- Welcome Message
+local playerName = game.Players.LocalPlayer.Name
+ArrayField:Notify({
+    Title = "Welcome!",
+    Content = "Welcome, " .. playerName,
+    Duration = 5,
+    Image = 4483362458,
+    Actions = {
+        Ignore = {
+            Name = "Okay!",
+            Callback = function()
+                print("The user tapped Okay!")
+            end
+        },
+    },
+})
+
+-- Continuous loop for Auto Tap, Auto Rebirth, and Auto Equip Pets while the toggles are enabled
+while wait(0.00000001) do
+    if autoTapEnabled then
+        -- Replace the following line with the appropriate Auto Tap remote call
+        game:GetService("ReplicatedStorage").Remotes.Tap:FireServer()
+    end
+
+    if autoRebirthEnabled then
+        -- Replace the following line with the appropriate Auto Rebirth remote call
+        game:GetService("ReplicatedStorage").Remotes.Rebirth:FireServer(1)
+    end
+
+    if autoEquipPetsEnabled then
+        -- Check if the player is not walking
+        if not (game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").Move) then
+            -- Wait for 3 seconds before attempting to equip pets
+            wait(3)
+            
+            -- Replace the following line with the appropriate Auto Equip Pets remote call
+            game:GetService("ReplicatedStorage").Remotes.EquipBestPets:InvokeServer()
+        end
+    end
+
+    -- Update Walkspeed from the slider
+    game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = savedWalkspeed
+end
